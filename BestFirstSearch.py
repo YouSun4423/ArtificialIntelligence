@@ -33,20 +33,20 @@ class Graph:
 
 
 def main():
-    vertices = ["S", "A", "B", "C", "D", "E", "F", "G"]
-    states = [4, 4, 2, 3, 1, 1, 0, 0]
+    vertices = ["S", "A", "B", "C", "D", "E", "G"]
+    states = [8, 6, 2, 4, 7, 1, 0]
     edges = [
-        ("S", "A", 2),
-        ("S", "B", 6),
-        ("A", "B", 2),
-        ("A", "C", 1),
-        ("B", "E", 5),
-        ("B", "F", 4),
-        ("B", "E", 5),
-        ("C", "E", 2),
-        ("C", "D", 5),
+        ("S", "A", 4),
+        ("S", "C", 5),
+        ("S", "D", 2),
+        ("A", "B", 4),
+        ("A", "C", 2),
+        ("B", "C", 3),
+        ("B", "E", 3),
+        ("B", "G", 2),
+        ("C", "D", 2),
+        ("C", "E", 1),
         ("D", "E", 1),
-        ("D", "G", 1),
         ("E", "G", 5),
     ]
     g = Graph()
@@ -65,13 +65,17 @@ def BFS(g):
     open_list.append(('S', 4))
     closed_list = deque()
     while True:
+        print(open_list)
         s = open_list.pop()[0]
         closed_list.append(s)
         if s == 'G':
             break
         for v in g.vertices[s].edges:
             if not (g.vertices[v[0]].id, g.vertices[v[0]].state) in open_list:
-                open_list.append((g.vertices[v[0]].id, g.vertices[v[0]].state))
+                if not g.vertices[v[0]].id in closed_list:
+                    open_list.append(
+                        (g.vertices[v[0]].id, g.vertices[v[0]].state)
+                    )
         
         for i in range(len(open_list) - 1):
             if open_list[i + 1][1] > open_list[i][1]:
